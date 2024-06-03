@@ -50,11 +50,13 @@ class ServiceMakeFeatures:
         df_y = df_y[["Survived"]]
         return df_y.reset_index(drop=True)
 
-    def _handle_missing_values(self, df_customer_info) -> pd.DataFrame:
+    def _handle_missing_values(self, df_customer_info: pd.DataFrame) -> pd.DataFrame:
         """欠損値処理する."""
-        df_customer_info["Age"] = df_customer_info["Age"].fillna(10)
-        df_customer_info["Cabin"] = df_customer_info["Cabin"].fillna("S")
-        df_customer_info = df_customer_info.dropna()
+        df_customer_info["Sex"] = df_customer_info["Sex"].fillna("male")
+        df_customer_info["Age"] = df_customer_info["Age"].fillna(20)
+        df_customer_info["Embarked"] = df_customer_info["Embarked"].fillna("S")
+        df_customer_info["Pclass"] = df_customer_info["Pclass"].fillna("2").astype(int)
+        df_customer_info = df_customer_info.dropna(subset=["Sex", "Embarked", "Pclass", "Age", "Fare"])
         return df_customer_info
 
     def _handle_violations(self, df_filled) -> pd.DataFrame:
